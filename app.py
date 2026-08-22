@@ -37,6 +37,8 @@ def reputation():
     # If "items" is missing, we use "" (an empty string) instead.
     card = request.args.get("card", "")
 
+    # missing imput handling
+
     if not card:
         return jsonify({"error": "card is required"}), 400
 
