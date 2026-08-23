@@ -1,19 +1,12 @@
 
 import os  # lets us read environment variables (settings from outside the code)
 
-from flask import Flask, request, jsonify  # the web framework
-import hashlib
-import time
-import random
-from reputation import reputation_check
+from flask import Flask, request, jsonify 
+from reputation_screening import screen_batch
 
 # Create the Flask web application.
 app = Flask(__name__)
 
-KNOWN_BAD_CARDS = {
-    "5555": 95,   # known high-risk card, risk score 95
-    "4321": 80,
-}
 
 # The network port this service listens on.
 PORT = int(os.environ.get("PORT", "8072"))
@@ -31,20 +24,15 @@ def add_cors_headers(response):
 
 
 @app.route("/", methods=["GET"])
-def reputation():
+def screen():
     # Read the "items" value from the web address.
     # For  /screen?items=5000-1234-UK,200-4321-US  this gives us that text.
     # If "items" is missing, we use "" (an empty string) instead.
-    card = request.args.get("card", "")
-
-    # missing imput handling
-
-    if not card:
-        return jsonify({"error": "card is required"}), 400
+    items = request.args.get("items", "")
 
 
     # Hand the text to our checker and get back the results.
-    result = reputation_check(card, KNOWN_BAD_CARDS)
+    result = screen_batch(items)
 
     # jsonify turns our Python dictionary into a proper JSON web response.
     return jsonify(result)
