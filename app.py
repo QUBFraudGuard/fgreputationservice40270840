@@ -16,7 +16,7 @@ KNOWN_BAD_CARDS = {
 }
 
 # The network port this service listens on.
-PORT = int(os.environ.get("PORT", "5000"))
+PORT = int(os.environ.get("PORT", "8072"))
 
 
 @app.after_request
