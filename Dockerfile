@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 8072
 
 # app.py runs Flask on 0.0.0.0:5000.
 CMD ["python", "app.py"]
