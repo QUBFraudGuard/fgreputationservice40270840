@@ -5,7 +5,7 @@ import requests
 CARD_PATTERN = re.compile(r"^\d{4}$")
 
 LOOKUP_URL = os.environ.get(
-    "REPUTATION_LOOKUP_URL", "http://reputation.40270840.qpc.qubcloud.uk/"
+    "REPUTATION_LOOKUP_URL", "http://externallookup.40270840.qpc.qubcloud.uk/"
 )
 RISK_THRESHOLD = int(os.environ.get("REPUTATION_RISK_THRESHOLD", "70"))
 
