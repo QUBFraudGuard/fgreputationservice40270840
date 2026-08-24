@@ -1,6 +1,7 @@
 import os
 import re
 import requests
+from concurrent.futures import ThreadPoolExecutor
 
 CARD_PATTERN = re.compile(r"^\d{4}$")
 
@@ -47,12 +48,10 @@ def screen_transaction(raw):
     return {"transaction": raw, "decision": "OK"}
 
 
+
 def screen_batch(items):
     transactions = [t for t in items.split(",") if t != ""] if items else []
-    results = [screen_transaction(t) for t in transactions]
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        results = list(executor.map(screen_transaction, transactions))
     flagged = sum(1 for r in results if r["decision"] == "SUSPICIOUS")
-    return {
-        "results": results,
-        "total_checked": len(results),
-        "flagged": flagged,
-    }
+    return {"results": results, "total_checked": len(results), "flagged": flagged}

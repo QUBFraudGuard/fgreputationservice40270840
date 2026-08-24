@@ -24,6 +24,7 @@ def add_cors_headers(response):
 
 
 @app.route("/", methods=["GET"])
+@app.route("/screen", methods=["GET"])
 def screen():
     # Read the "items" value from the web address.
     # For  /screen?items=5000-1234-UK,200-4321-US  this gives us that text.
